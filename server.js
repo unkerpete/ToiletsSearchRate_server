@@ -1,8 +1,7 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const cors = require("cors");
-const pool = require("./db/db");
+const express = require('express');
+const cors = require('cors');
 const app = express();
 
 //middleware
@@ -11,10 +10,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // import the routes from the different routers
-const toilets = require("./routes/toilets-tbl");
+const toilets = require('./routes/toilets-tbl');
 
-// test connection
-app.use("/toilets", toilets);
+// mount the routers middleware
+app.use('/toilets', toilets);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

@@ -7,11 +7,11 @@ CREATE TYPE sex AS ENUM ('male', 'female', 'unisex');
 
 CREATE TABLE toilets(
   id SERIAL PRIMARY KEY,
-  imgUrl VARCHAR(255),
-  _location VARCHAR(255),
-  sex sex,
-  details VARCHAR(255),
-  bidet bidet,
-  _address VARCHAR(255),
-  postalcode VARCHAR(255)
+  imgUrl VARCHAR(255) NOT NULL,
+  _location VARCHAR(255) NOT NULL,
+  sex sex NOT NULL,
+  details VARCHAR(255) NOT NULL,
+  bidet bidet NOT NULL,
+  _address VARCHAR(255) NOT NULL,
+  postalcode VARCHAR(255) NOT NULL
 );
