@@ -11,9 +11,11 @@ app.use(express.urlencoded({ extended: false }));
 
 // import the routes from the different routers
 const toilets = require('./routes/toilets-tbl');
+const users = require('./routes/users');
 
 // mount the routers middleware
 app.use('/toilets', toilets);
+app.use('/user', users);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

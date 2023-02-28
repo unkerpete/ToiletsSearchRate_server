@@ -18,9 +18,9 @@ CREATE TABLE toilets(
 );
 
 CREATE TABLE users(
-  id SERIAL,
+  id SERIAL, -- did not find uuid necessary as we are using email as primary key
   username VARCHAR(50) UNIQUE NOT NULL,
   email VARCHAR(255) UNIQUE PRIMARY KEY NOT NULL,
   _password VARCHAR(255) NOT NULL,
-  _role role default 'user'
+  _role role DEFAULT 'user'
 );
