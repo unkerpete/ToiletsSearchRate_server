@@ -3,12 +3,11 @@
 CREATE DATABASE toilets_app;
 
 CREATE TYPE bidet AS ENUM ('no', 'manual', 'automatic');
-CREATE TYPE sex AS ENUM ('male', 'female');
+CREATE TYPE sex AS ENUM ('male', 'female', 'unisex');
 
 CREATE TABLE toilets(
   id SERIAL PRIMARY KEY,
   imgUrl VARCHAR(255),
-  region VARCHAR(50),
   _location VARCHAR(255),
   sex sex,
   details VARCHAR(255),

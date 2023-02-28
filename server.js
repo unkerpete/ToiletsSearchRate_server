@@ -10,16 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// test postgresdb connection
-app.get("/showalltoilet", async (req, res) => {
-  try {
-    const allToilets = await pool.query("SELECT * FROM toilets");
-    console.log(allToilets.rows);
-    res.json(allToilets.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
-});
+// import the routes from the different routers
+const toilets = require("./routes/toilets-tbl");
+
+// test connection
+app.use("/toilets", toilets);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
