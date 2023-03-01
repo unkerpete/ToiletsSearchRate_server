@@ -1,8 +1,8 @@
-// import express
+// import express and router method in express
 const express = require('express');
-// import router
 const router = express.Router();
 
+// import the 2 auth levels
 const auth = require('../middleware/auth'); // KIV. To require this auth only for leaving a comment on toilet card or rating it
 const authAdmin = require('../middleware/authAdmin');
 

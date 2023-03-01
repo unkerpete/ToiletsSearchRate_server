@@ -68,10 +68,46 @@ const login = async (req, res) => {
   }
 };
 
-// delete user
+// GET finds a user (for admin to find a user and delete him)
+const getSingleUser = async (req, res) => {
+  try {
+    const { userName } = req.body;
+    const singleUser = await pool.query(
+      'SELECT * FROM users WHERE username = $1',
+      [userName]
+    );
+    console.log(singleUser);
+    if (singleUser.rowCount === 0) {
+      res.json({ message: 'no such user' });
+    } else {
+      res.json(singleUser.rows);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.json(err.message);
+  }
+};
 
-// update user
+// DELETE user
+const deleteUser = async (req, res) => {
+  try {
+    const { userName } = req.body;
+    const delUser = await pool.query(
+      'DELETE FROM users WHERE username = $1 RETURNING *',
+      [
+        //TODO add a cascade method that will delete user and all associated data(messages?)
+        userName,
+      ]
+    );
+    if (delUser.rowCount === 0) {
+      res.json({ message: 'no such user' });
+    } else {
+      res.json(delUser.rows);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.json(err.message);
+  }
+};
 
-// find user
-
-module.exports = { createUser, login };
+module.exports = { createUser, login, getSingleUser, deleteUser };
