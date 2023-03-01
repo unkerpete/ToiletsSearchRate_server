@@ -52,7 +52,7 @@ const login = async (req, res) => {
       user.rows[0]._password
     );
 
-    //3. if correct, give jwt token
+    //3. if correct, give jwt token to client side
     if (validPassword) {
       const token = jwtGenerator(
         user.rows[0].username,
