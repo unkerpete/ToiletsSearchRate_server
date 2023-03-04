@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const auth = async (req, res, next) => {
   try {
-    const jwtToken = req.header('token');
+    const jwtToken = req.header('Authorization');
 
     if (!jwtToken) {
       return res.status(403).json({ message: 'Not authorized' });

@@ -16,10 +16,10 @@ const {
 } = require('../controllers/toilets-tbl');
 
 // GET all toilets
-router.get('/getalltoilets', auth, getAllToilets); // KIV. To require this auth only for leaving a comment on toilet card or rating it
+router.get('/getalltoilets', getAllToilets); // KIV. To require this auth only for leaving a comment on toilet card or rating it
 
 // GET a single toilet by Id
-router.get('/getsingletoilet', authAdmin, getSingleToiletById);
+router.get('/getsingletoilet', auth, getSingleToiletById);
 
 // POST create a new toilet
 router.post('/createtoilet', authAdmin, createToilet);

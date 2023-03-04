@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
       [username, email]
     );
     if (user.rowCount > 0) {
-      res.json({ message: 'user or email already exists' });
+      res.status(400).json({ message: 'Username or email already exists' });
     } else {
       // if doesn't exist, continue creating the user
       // bcrypt the user's password
@@ -29,7 +29,14 @@ const createUser = async (req, res) => {
         newUser.rows[0].email,
         newUser.rows[0]._role
       );
-      res.json({ token });
+      // response to client
+      res.status(200).json({
+        token: token,
+        message: 'ok',
+        username: newUser.rows[0].username,
+        email: newUser.rows[0].email,
+        role: newUser.rows[0]._role,
+      });
     }
   } catch (err) {
     console.error(err.message);
@@ -52,16 +59,23 @@ const login = async (req, res) => {
       user.rows[0]._password
     );
 
-    //3. if correct, give jwt token to client side
+    //3. if correct, create jwt token for the user
     if (validPassword) {
       const token = jwtGenerator(
         user.rows[0].username,
         user.rows[0].email,
         user.rows[0]._role
       );
-      res.json({ token });
+      // response to client side
+      res.json({
+        token: token,
+        message: 'Logged in successfully',
+        username: user.rows[0].username,
+        email: user.rows[0].email,
+        role: user.rows[0]._role,
+      });
     } else {
-      res.json({ message: 'Incorrect login email or password' });
+      res.status(400).json({ message: 'Incorrect login email or password' });
     }
   } catch (error) {
     res.status(500);
