@@ -19,7 +19,7 @@ const {
 router.get('/getalltoilets', getAllToilets); // KIV. To require this auth only for leaving a comment on toilet card or rating it
 
 // GET a single toilet by Id
-router.get('/getsingletoilet', auth, getSingleToiletById);
+router.post('/getsingletoilet', authAdmin, getSingleToiletById);
 
 // POST create a new toilet
 router.post('/createtoilet', authAdmin, createToilet);

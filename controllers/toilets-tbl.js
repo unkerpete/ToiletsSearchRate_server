@@ -21,7 +21,7 @@ const getSingleToiletById = async (req, res) => {
       'SELECT * FROM toilets WHERE id = $1',
       [id]
     );
-    if (singleToilet.rowCount === 0) {
+    if (!singleToilet.rowCount) {
       res.json({ message: 'no toilet with this id' });
     } else {
       res.json(singleToilet.rows);
@@ -31,8 +31,6 @@ const getSingleToiletById = async (req, res) => {
     res.json(err.message);
   }
 };
-
-//GET filtered toilets. If filtering at front end, this endpoint is unnecessary.
 
 //POST create toilet
 const createToilet = async (req, res) => {
@@ -44,7 +42,7 @@ const createToilet = async (req, res) => {
       [imgurl, _location, sex, details, bidet, _address, postalcode]
     );
     console.log(newToilet.rows);
-    res.json(newToilet.rows);
+    res.status(200).json({ message: 'toilet created' });
   } catch (err) {
     console.error(err.message);
     res.json(err.message);
@@ -61,7 +59,9 @@ const deleteToilet = async (req, res) => {
     if (delToilet.rowCount === 0) {
       res.json({ message: 'no toilet with this id' });
     } else {
-      res.json(delToilet.rows);
+      res
+        .status(200)
+        .json({ message: 'toilet deleted', deletedToilet: delToilet.rows });
     }
   } catch (err) {
     console.error(err.message);
@@ -81,7 +81,8 @@ const updateToilet = async (req, res) => {
     if (updatedToilet.rowCount === 0) {
       res.json({ message: 'no toilet with this id' });
     } else {
-      res.json(updatedToilet.rows);
+      console.log(updatedToilet.rows);
+      res.status(200).json({ message: 'toilet updated' });
     }
   } catch (err) {
     console.error(err.message);
