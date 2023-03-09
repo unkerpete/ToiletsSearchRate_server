@@ -121,14 +121,6 @@ const deleteUser = async (req, res) => {
       username,
     ]);
     await pool.query('DELETE FROM users WHERE username = $1', [username]);
-    // const delUser = await pool.query(
-    //   `BEGIN;
-    //   DELETE FROM users WHERE username = $1;
-    //   DELETE FROM ratings WHERE users_username = $1;
-    //   DELETE FROM messages WHERE users_username = $1;
-    //   COMMIT;`,
-    //   [username]
-    // );
     res.json({ message: 'user deleted' });
   } catch (err) {
     console.error(err.message);
