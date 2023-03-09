@@ -24,7 +24,7 @@ router.post('/login', login);
 router.post('/find', authAdmin, getSingleUser);
 
 // Delete user by username
-router.delete('/delete', authAdmin, deleteUser);
+router.delete('/delete/:username', authAdmin, deleteUser);
 
 // export routes for server.js to access
 module.exports = router;

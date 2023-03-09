@@ -37,7 +37,27 @@ const createComment = async (req, res) => {
   }
 };
 
+//GET all comments from a particular user
+const getUserComments = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const comments = await pool.query(
+      'SELECT * FROM messages WHERE users_userName = $1 ORDER BY created_at DESC',
+      [username]
+    );
+    if (!comments.rowCount) {
+      res.json({ message: 'no comments' });
+    } else {
+      res.json(comments.rows);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.json(err.message);
+  }
+};
+
 module.exports = {
   getComments,
   createComment,
+  getUserComments,
 };

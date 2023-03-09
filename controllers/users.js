@@ -54,6 +54,15 @@ const login = async (req, res) => {
     const user = await pool.query('SELECT * FROM users WHERE email = $1', [
       email,
     ]);
+
+    // Check if user exists
+    if (user.rows.length === 0) {
+      return res
+        .status(400)
+        .json({ message: 'Incorrect login email or password' });
+    }
+
+    // check if password matches
     const validPassword = await bcrypt.compare(
       _password,
       user.rows[0]._password
@@ -90,7 +99,6 @@ const getSingleUser = async (req, res) => {
       'SELECT * FROM users WHERE username = $1',
       [userName]
     );
-    console.log(singleUser);
     if (singleUser.rowCount === 0) {
       res.json({ message: 'no such user' });
     } else {
@@ -105,19 +113,23 @@ const getSingleUser = async (req, res) => {
 // DELETE user
 const deleteUser = async (req, res) => {
   try {
-    const { userName } = req.body;
-    const delUser = await pool.query(
-      'DELETE FROM users WHERE username = $1 RETURNING *',
-      [
-        //TODO add a cascade method that will delete user and all associated data(messages?)
-        userName,
-      ]
-    );
-    if (delUser.rowCount === 0) {
-      res.json({ message: 'no such user' });
-    } else {
-      res.json(delUser.rows);
-    }
+    const { username } = req.params;
+    await pool.query('DELETE FROM ratings WHERE users_username = $1', [
+      username,
+    ]);
+    await pool.query('DELETE FROM messages WHERE users_username = $1', [
+      username,
+    ]);
+    await pool.query('DELETE FROM users WHERE username = $1', [username]);
+    // const delUser = await pool.query(
+    //   `BEGIN;
+    //   DELETE FROM users WHERE username = $1;
+    //   DELETE FROM ratings WHERE users_username = $1;
+    //   DELETE FROM messages WHERE users_username = $1;
+    //   COMMIT;`,
+    //   [username]
+    // );
+    res.json({ message: 'user deleted' });
   } catch (err) {
     console.error(err.message);
     res.json(err.message);

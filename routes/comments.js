@@ -7,12 +7,19 @@ const auth = require('../middleware/auth'); // KIV. To require this auth only fo
 const authAdmin = require('../middleware/authAdmin');
 
 // import functions from controller
-const { getComments, createComment } = require('../controllers/comments');
+const {
+  getComments,
+  createComment,
+  getUserComments,
+} = require('../controllers/comments');
 
 // GET all comments
 router.get('/getcomments/:toilets_id', getComments);
 
 // POST submit new comment
 router.post('/createComment', auth, createComment);
+
+// GET all comments
+router.get('/getusercomments/:username', authAdmin, getUserComments);
 
 module.exports = router;
