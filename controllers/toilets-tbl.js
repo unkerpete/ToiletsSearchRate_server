@@ -4,7 +4,9 @@ const pool = require('../db/db');
 //GET all toilets
 const getAllToilets = async (req, res) => {
   try {
-    const allToilets = await pool.query('SELECT * FROM toilets');
+    const allToilets = await pool.query(
+      'SELECT * FROM toilets ORDER BY id DESC'
+    );
     console.log(allToilets.rows);
     res.json(allToilets.rows);
   } catch (err) {
